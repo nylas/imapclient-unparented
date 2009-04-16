@@ -8,6 +8,8 @@
         - script to do this (in parallel)
     - update README, website and docstrings to advertise this feature
 
+- sort out INTERNALDATE timezone issues in livetest.py (see freshfoo.com)
+
 - turn livetests into a nose based tested
     - make each test independent
 

@@ -67,7 +67,7 @@ class IMAPClient(object):
     ReadOnlyError = imaplib.IMAP4.readonly
 
     re_sep = re.compile('^\(\("[^"]*" "([^"]+)"\)\)')
-    re_folder = re.compile('\([^)]*\) "[^"]+" "([^"]+)"')
+    re_folder = re.compile('\([^)]*\) "[^"]+" "?([^"]+)"?')
     re_status = re.compile(r'^\s*"(?P<folder>[^"]+)"\s+'
                            r'\((?P<status_items>.*)\)$')
 
@@ -197,7 +197,6 @@ class IMAPClient(object):
                 m = self.re_folder.match(line)
                 if m:
                     folders.append(self._decode_folder_name(m.group(1)))
-
         return folders
 
 
@@ -710,6 +709,7 @@ class FetchTokeniser(object):
         else:
             return s
 
+
 class Literal(object):
     '''
     Simple class to represent a literal token in the fetch response
@@ -744,6 +744,7 @@ def strict_finditer(regex, s):
                         "%r remains" % s[i:])
             else:
                 return
+
 
 def messages_to_str(messages):
     '''Convert a sequence of messages ids or a single message id into an
