@@ -1,0 +1,28 @@
+Thanks go to the following people for their help with this project.
+
+Code
+----
+Helder Guerreiro
+    - capability checks
+    - logout command
+    - status command
+    - lsub command
+
+Jp Calderone
+    The contents of imapclient/imap_utf7.py and associated tests have been
+    taken from the Twisted project (http://twistedmatrix.com/). This
+    functionality was written by Jp Calderone.
+
+Michael Foord
+    IMAPClient is distributed with Michael's excellent mock.py 
+    (http://www.voidspace.org.uk/python/mock/)
+
+
+Bug Reports
+------------
+Brian Jackson
+Neil Martinsen-Burrell
+
+
+The project was partially developed while the author was working at NetBox Blue
+(http://netboxblue.com/).

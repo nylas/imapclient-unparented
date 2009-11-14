@@ -1,0 +1,23 @@
+Version 0.5
+-----------
+Support for SSL based connections.
+
+Folder names are now encoded and decoded transparently if required (using
+modified UTF-7). This means that any methods that return folder names may
+return unicode objects as well as normal strings [API CHANGE]. Additionally,
+any method that takes a folder name now accepts unicode object too. Use the
+folder_encode attribute to control whether encode/decoding is performed.
+
+Unquoted folder names in server responses are now handled correctly. Thanks
+to Neil Martinsen-Burrell for reporting this bug.
+
+Fixed a bug with handling of unusual characters in folder names.
+
+Timezones are now handled correctly for datetimes passed as input and for
+server responses. This fixes a number of bugs with timezones. Returned
+datetimes are always in the client's local timezone [API CHANGE].
+
+Many more unit tests, some using Michael Foord's excellent mock.py.
+(http://www.voidspace.org.uk/python/mock/)
+
+
