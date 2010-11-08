@@ -48,10 +48,20 @@ purposes. Any problems found will be fixed quickly once reported.
 
 The project's home page is a Trac instance at:
 
-    http://imapclient.freshfoo.com/.  
+    http://imapclient.freshfoo.com/  
 
 Details about upcoming versions and planned features/fixes can be
 found there.
+
+
+Mailing List
+------------
+The IMAPClient mailing list can be used to ask IMAPClient related
+questions and report bugs. 
+
+* To send to the list and subscribe send an email to imapclient@librelist.com 
+* Archives of the list are available at http://librelist.com/browser/imapclient/ 
+* See http://librelist.com/help.html for more information about the mailing list
 
 
 Using IMAPClient
@@ -67,10 +77,14 @@ To install from the source distribution:
 
     python setup.py install
 
-The usual setuptools installation options are available. See
-http://peak.telecommunity.com/DevCenter/EasyInstall for more info.
+The project is packaged using Distribute (mostly compatible with
+setuptools) and all the usual setup.py installation options are
+available. See http://packages.python.org/distribute/ for more info.
 
-See examples/example.py for a simple example of how to use IMAPClient.
+See imapclient/examples/example.py for a sample of how to use
+IMAPClient. If the IMAPClient was installed from PyPI the examples
+subdirectory can be found under whereever the imapclient package is
+installed.
 
 The code is well documented. See the docstrings for more usage
 information.
@@ -113,5 +127,6 @@ IMAP server.
 Unit Tests
 ----------
 There are comprehensive unit tests for the FETCH response parser and a
-growing number of other parts of the code. These tests use unittest
-and can be run using "python setup.py test" or "python run_tests.py".
+growing number of other parts of the code. These tests use the
+unittest package from the standard library and can be run using
+"python run_tests.py".
