@@ -61,9 +61,8 @@ class Namespace(tuple):
 
 
 class IMAPClient(object):
-    """
-    A connection to the IMAP server specified by *host* is made when
-    the class is instantiated.
+    """A connection to the IMAP server specified by *host* is made when
+    this class is instantiated.
 
     *port* defaults to 143, or 993 if *ssl* is ``True``.
 
@@ -77,6 +76,20 @@ class IMAPClient(object):
     to establish a connection to the IMAP server (defaults to
     ``False``). This is useful for exotic connection or authentication
     setups.
+
+    Additional keyword arguments are passed through to the constructor
+    of the :py:class:`imaplib.IMAP4` class, or
+    :py:class:`imaplib.IMAP4_SSL` when *ssl* is ``True`` (these are
+    used by ``IMAPClient`` internally). This allows passing SSL
+    related parameters such as *keyfile*, *certfile* and *ssl_context*
+    (Python version dependent). For details, see the :py:mod:`imaplib`
+    documentation in the standard library reference.
+
+    .. note::
+
+       Support for passthrough keyword arguments may be removed in
+       some future version of IMAPClient. Backwards compatibility is
+       not guaranteed for this feature.
 
     The *normalise_times* attribute specifies whether datetimes
     returned by ``fetch()`` are normalised to the local system time
@@ -95,13 +108,15 @@ class IMAPClient(object):
     By default, debug output goes to stderr. The *log_file* attribute
     can be assigned to an alternate file handle for writing debug
     output to.
+
     """
 
     Error = imaplib.IMAP4.error
     AbortError = imaplib.IMAP4.abort
     ReadOnlyError = imaplib.IMAP4.readonly
 
-    def __init__(self, host, port=None, use_uid=True, ssl=False, stream=False):
+    def __init__(self, host, port=None, use_uid=True, ssl=False, stream=False,
+                 **kwargs):
         if stream:
             if port is not None:
                 raise ValueError("can't set 'port' when 'stream' True")
@@ -120,16 +135,16 @@ class IMAPClient(object):
         self.normalise_times = True
 
         self._cached_capabilities = None
-        self._imap = self._create_IMAP4()
+        self._imap = self._create_IMAP4(**kwargs)
         self._imap._mesg = self._log    # patch in custom debug log method
         self._idle_tag = None
 
-    def _create_IMAP4(self):
+    def _create_IMAP4(self, **kwargs):
         # Create the IMAP instance in a separate method to make unit tests easier
         if self.stream:
             return imaplib.IMAP4_stream(self.host)
         ImapClass = self.ssl and imaplib.IMAP4_SSL or imaplib.IMAP4
-        return ImapClass(self.host, self.port)
+        return ImapClass(self.host, self.port, **kwargs)
 
     def login(self, username, password):
         """Login using *username* and *password*, returning the
@@ -284,7 +299,7 @@ class IMAPClient(object):
              ([u'\\HasNoChildren', u'\\Starred'], '/', u'[Gmail]/Starred'),
              ([u'\\HasNoChildren', u'\\Trash'], '/', u'[Gmail]/Trash')]
 
-        This is a *deprecated* Gmail-specific IMAP extension (See 
+        This is a *deprecated* Gmail-specific IMAP extension (See
         https://developers.google.com/gmail/imap_extensions#xlist_is_deprecated
         for more information).
         It is the responsibility of the caller to either check for ``XLIST``
