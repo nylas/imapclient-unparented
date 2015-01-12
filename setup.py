@@ -16,7 +16,9 @@ import sys
 import imapclient
 version = imapclient.__version__
 
-IS_OLD_PYTHON = sys.version_info[:2] <= (2, 6)
+MAJ_MIN = sys.version_info[:2]
+IS_PY_26_OR_OLDER = MAJ_MIN <= (2, 6)
+IS_PY_34_OR_NEWER = MAJ_MIN >= (3, 4)
 
 desc = """\
 IMAPClient is an easy-to-use, Pythonic and complete IMAP client library.
@@ -48,12 +50,12 @@ class TestDiscoverCommand(TestCommand):
     def run_tests(self):
         from imapclient.test.util import unittest   # this will import unittest2
         module = "__main__"
-        if IS_OLD_PYTHON:
+        if IS_PY_26_OR_OLDER or IS_PY_34_OR_NEWER:
             module = None
         unittest.main(argv=['', 'discover'], module=module)
 
 test_deps = ['mock==0.8.0']
-if IS_OLD_PYTHON:
+if IS_PY_26_OR_OLDER:
     test_deps.append('unittest2')
 
 setup(name='IMAPClient',
