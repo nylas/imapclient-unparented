@@ -63,14 +63,17 @@ class TestDiscoverCommand(TestCommand):
             module = None
         unittest.main(argv=['', 'discover'], module=module)
 
-main_deps = [
-    'backports.ssl>=0.0.9',
-    'pyopenssl>=0.15.1',
+common_deps = [
     'six',
-    'mock==1.3.0'
+    'mock==1.3.0',
 ]
 
-setup_deps = main_deps + ['sphinx']
+main_deps = common_deps + [
+    'backports.ssl>=0.0.9',
+    'pyopenssl>=0.15.1',
+]
+
+setup_deps = common_deps + ['sphinx']
 
 test_deps = []
 if IS_PY_26_OR_OLDER:
